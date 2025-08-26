@@ -1,6 +1,6 @@
 import React from "react";
 import { signInWithPopup } from "firebase/auth";
-import { auth, googleProvider, githubProvider, linkedinProvider } from "./firebase";
+import { auth, googleProvider, githubProvider, linkedinProvider, microsoftProvider } from "./firebase";
 import "./LoginPage.css";
 
 function LoginPage() {
@@ -13,6 +13,19 @@ function LoginPage() {
       })
       .catch((error) => console.error("Google Hata:", error));
   };
+  // Microsoft
+const handleMicrosoftSignIn = () => {
+  signInWithPopup(auth, microsoftProvider)
+    .then((result) => {
+      const user = result.user;
+      console.log("Microsoft User:", user);
+      // burada profile page'e yönlendirme yapabilirsin
+              alert(`Hoşgeldin ${user.displayName}`);
+    })
+    .catch((error) => {
+      console.error("Microsoft Login Error:", error);
+    });
+};
 
   const handleGithubSignIn = () => {
     signInWithPopup(auth, githubProvider)
@@ -44,8 +57,8 @@ function LoginPage() {
           Log in with Google
         </button>
 
-        <button className="btn microsoft" disabled>
-          <img src="https://img.icons8.com/color/48/000000/microsoft.png" alt="Microsoft" />
+        <button className="btn microsoft" onClick={handleMicrosoftSignIn}>
+        <img src="https://img.icons8.com/color/48/000000/microsoft.png" alt="Microsoft" />
           Log in with Microsoft
         </button>
 

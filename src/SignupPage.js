@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithPopup } from "firebase/auth";
-import { auth, googleProvider, githubProvider, linkedinProvider } from "./firebase";
+import { auth, googleProvider, githubProvider, linkedinProvider, microsoftProvider } from "./firebase"; // 👈 Microsoft eklendi
 import "./LoginPage.css";
 
 function SignupPage() {
@@ -14,6 +14,15 @@ function SignupPage() {
         navigate("/profile-setup");
       })
       .catch((error) => console.error("Google Hata:", error));
+  };
+
+  const handleMicrosoftSignUp = () => {
+    signInWithPopup(auth, microsoftProvider) // 👈 Microsoft provider kullanıyoruz
+      .then((result) => {
+        console.log("Microsoft Kullanıcı:", result.user);
+        navigate("/profile-setup");
+      })
+      .catch((error) => console.error("Microsoft Hata:", error));
   };
 
   const handleGithubSignUp = () => {
@@ -55,13 +64,13 @@ function SignupPage() {
           Sign up with Google
         </button>
 
-        {/* Microsoft (pasif) */}
-        <button className="btn microsoft" disabled>
+        {/* Microsoft ✅ */}
+        <button className="btn microsoft" onClick={handleMicrosoftSignUp}>
           <img
             src="https://img.icons8.com/color/48/000000/microsoft.png"
             alt="Microsoft"
           />
-          Sign up with Microsoft (Coming soon)
+          Sign up with Microsoft
         </button>
 
         {/* GitHub */}
